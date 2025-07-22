@@ -1,6 +1,12 @@
 package com.educational.alura.OraculoDoSaber.model;
 
+import com.educational.alura.OraculoDoSaber.model.dto.AutorDTO;
+import com.educational.alura.OraculoDoSaber.model.dto.LivroDTO;
+import com.educational.alura.OraculoDoSaber.repository.LivroRepository;
 import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 @Entity
 @Table(name = "livros")
@@ -12,9 +18,10 @@ public class Livro {
     private String titulo;
     @ManyToOne
     private Autor autor;
-    @Enumerated(EnumType.STRING)
-    private Linguagem idioma;
+    private String idioma;
     private Integer numeroDownloads;
+
+
 
     public Long getId() {
         return id;
@@ -40,11 +47,11 @@ public class Livro {
         this.autor = autor;
     }
 
-    public Linguagem getIdioma() {
+    public String getIdioma() {
         return idioma;
     }
 
-    public void setIdioma(Linguagem idioma) {
+    public void setIdioma(String idioma) {
         this.idioma = idioma;
     }
 
@@ -56,12 +63,11 @@ public class Livro {
         this.numeroDownloads = numeroDownloads;
     }
 
-    public Livro(Long id, String titulo, Autor autor, Linguagem idioma, Integer numeroDownloads) {
-        this.id = id;
-        this.titulo = titulo;
+    public Livro(LivroDTO livro, Autor autor) {
+        this.titulo = livro.titulo();
         this.autor = autor;
-        this.idioma = idioma;
-        this.numeroDownloads = numeroDownloads;
+        this.idioma = livro.languages().get(0).toString();
+        this.numeroDownloads = livro.numeroDownloads();
     }
 
     public Livro() {

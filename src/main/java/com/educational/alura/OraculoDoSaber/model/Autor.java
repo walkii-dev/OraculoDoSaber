@@ -1,5 +1,6 @@
 package com.educational.alura.OraculoDoSaber.model;
 
+import com.educational.alura.OraculoDoSaber.model.dto.AutorDTO;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -57,12 +58,10 @@ public class Autor {
         this.livrosDoAutor = livrosDoAutor;
     }
 
-    public Autor(Long id, String nome, Integer anoNascimento, Integer anoFalecimento, List<Livro> livrosDoAutor) {
-        this.id = id;
-        this.nome = nome;
-        this.anoNascimento = anoNascimento;
-        this.anoFalecimento = anoFalecimento;
-        this.livrosDoAutor = livrosDoAutor;
+    public Autor(AutorDTO autor) {
+        this.nome = autor.nome();
+        this.anoNascimento = autor.anoNascimento();
+        this.anoFalecimento = autor.anoFalecimento();
     }
 
     public Autor() {
