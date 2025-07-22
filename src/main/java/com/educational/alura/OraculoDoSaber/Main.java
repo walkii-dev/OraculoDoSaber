@@ -1,5 +1,6 @@
 package com.educational.alura.OraculoDoSaber;
 
+import com.educational.alura.OraculoDoSaber.model.Autor;
 import com.educational.alura.OraculoDoSaber.model.Livro;
 import com.educational.alura.OraculoDoSaber.model.dto.AuxiliarDTO;
 import com.educational.alura.OraculoDoSaber.model.dto.LivroDTO;
@@ -42,8 +43,7 @@ public class Main {
 
             switch (option){
                 case 1:
-                    //buscarLivroPeloTitulo();
-                    getLivro();
+                    buscarLivroPeloTitulo();
                     break;
                 case 2:
                     //listarLivrosBuscados();
@@ -73,16 +73,23 @@ public class Main {
         }
     }
 
-    public AuxiliarDTO getLivro(){
+    public AuxiliarDTO getInfo(){
         System.out.println("Digite um dom casmurro para testar:");
         var busca = input.nextLine();
         var json = consumo.obterDadosAPI(busca);
 //        System.out.println(json);
-        AuxiliarDTO resposta = conversor.converterDados(json, AuxiliarDTO.class);
-//        System.out.println(resposta);
-        return resposta;
+        AuxiliarDTO auxiliar = conversor.converterDados(json, AuxiliarDTO.class);
+        System.out.println(auxiliar);
+        return auxiliar;
     }
     public void buscarLivroPeloTitulo(){
+
+        AuxiliarDTO auxiliar = getInfo();
+        Autor autor = new Autor(auxiliar);
+        Livro livro = new Livro(auxiliar);
+
+        System.out.println(autor);
+        System.out.println(livro);
 
     }
 

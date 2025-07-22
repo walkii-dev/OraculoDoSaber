@@ -1,6 +1,7 @@
 package com.educational.alura.OraculoDoSaber.model;
 
 import com.educational.alura.OraculoDoSaber.model.dto.AutorDTO;
+import com.educational.alura.OraculoDoSaber.model.dto.AuxiliarDTO;
 import com.educational.alura.OraculoDoSaber.model.dto.LivroDTO;
 import com.educational.alura.OraculoDoSaber.repository.LivroRepository;
 import jakarta.persistence.*;
@@ -25,10 +26,6 @@ public class Livro {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getTitulo() {
@@ -63,11 +60,11 @@ public class Livro {
         this.numeroDownloads = numeroDownloads;
     }
 
-    public Livro(LivroDTO livro, Autor autor) {
-        this.titulo = livro.titulo();
-        this.autor = autor;
-        this.idioma = livro.languages().get(0).toString();
-        this.numeroDownloads = livro.numeroDownloads();
+    public Livro(AuxiliarDTO auxiliar) {
+        this.titulo = auxiliar.resultado().get(0).titulo();
+        this.autor = new Autor(auxiliar);
+        this.idioma = auxiliar.resultado().get(0).languages().get(0);
+        this.numeroDownloads = auxiliar.resultado().get(0).numeroDownloads();
     }
 
     public Livro() {
@@ -76,9 +73,8 @@ public class Livro {
     @Override
     public String toString() {
         return "Livro{" +
-                "id=" + id +
                 ", titulo='" + titulo + '\'' +
-                ", autor=" + autor +
+                ", autor=" + autor.getNome() +
                 ", idioma='" + idioma + '\'' +
                 ", numeroDownloads=" + numeroDownloads +
                 '}';

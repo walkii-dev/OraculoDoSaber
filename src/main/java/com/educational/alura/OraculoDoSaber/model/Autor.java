@@ -1,8 +1,10 @@
 package com.educational.alura.OraculoDoSaber.model;
 
 import com.educational.alura.OraculoDoSaber.model.dto.AutorDTO;
+import com.educational.alura.OraculoDoSaber.model.dto.AuxiliarDTO;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,7 +18,7 @@ public class Autor {
     private Integer anoFalecimento;
 
     @Transient
-    private List<Livro> livrosDoAutor;
+    private List<Livro> livrosDoAutor = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -58,10 +60,10 @@ public class Autor {
         this.livrosDoAutor = livrosDoAutor;
     }
 
-    public Autor(AutorDTO autor) {
-        this.nome = autor.nome();
-        this.anoNascimento = autor.anoNascimento();
-        this.anoFalecimento = autor.anoFalecimento();
+    public Autor(AuxiliarDTO auxiliar) {
+        this.nome = auxiliar.resultado().get(0).autor().get(0).nome();
+        this.anoNascimento = auxiliar.resultado().get(0).autor().get(0).anoNascimento();
+        this.anoFalecimento = auxiliar.resultado().get(0).autor().get(0).anoFalecimento();
     }
 
     public Autor() {
@@ -70,11 +72,8 @@ public class Autor {
     @Override
     public String toString() {
         return "Autor{" +
-                "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", anoNascimento=" + anoNascimento +
-                ", anoFalecimento=" + anoFalecimento +
-                ", livrosDoAutor=" + livrosDoAutor +
-                '}';
+                ", anoFalecimento=" + anoFalecimento;
     }
 }
