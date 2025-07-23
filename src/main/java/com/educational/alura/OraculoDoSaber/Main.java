@@ -4,6 +4,7 @@ import com.educational.alura.OraculoDoSaber.model.Autor;
 import com.educational.alura.OraculoDoSaber.model.Livro;
 import com.educational.alura.OraculoDoSaber.model.dto.AuxiliarDTO;
 import com.educational.alura.OraculoDoSaber.model.dto.LivroDTO;
+import com.educational.alura.OraculoDoSaber.repository.AutorRepository;
 import com.educational.alura.OraculoDoSaber.repository.LivroRepository;
 import com.educational.alura.OraculoDoSaber.service.ConsumoAPI;
 import com.educational.alura.OraculoDoSaber.service.ConversaoDados;
@@ -17,6 +18,14 @@ public class Main {
     private ConsumoAPI consumo = new ConsumoAPI();
     private ConversaoDados conversor = new ConversaoDados();
     private Scanner input = new Scanner(System.in);
+
+    private LivroRepository livroRepository;
+    private AutorRepository autorRepository;
+
+    public Main(AutorRepository autorRepository, LivroRepository livroRepository) {
+        this.autorRepository = autorRepository;
+        this.livroRepository = livroRepository;
+    }
 
     public void mainMenu(){
 
@@ -87,9 +96,13 @@ public class Main {
         AuxiliarDTO auxiliar = getInfo();
         Autor autor = new Autor(auxiliar);
         Livro livro = new Livro(auxiliar);
-
         System.out.println(autor);
         System.out.println(livro);
+
+        autorRepository.save(autor);
+        livroRepository.save(livro);
+
+
 
     }
 

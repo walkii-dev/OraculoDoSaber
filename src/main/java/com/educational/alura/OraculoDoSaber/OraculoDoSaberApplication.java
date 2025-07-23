@@ -1,6 +1,7 @@
 package com.educational.alura.OraculoDoSaber;
 
 import com.educational.alura.OraculoDoSaber.model.Livro;
+import com.educational.alura.OraculoDoSaber.repository.AutorRepository;
 import com.educational.alura.OraculoDoSaber.repository.LivroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,11 +16,14 @@ public class OraculoDoSaberApplication implements CommandLineRunner {
 	}
 
 	@Autowired
-	public LivroRepository repository;
+	private AutorRepository autorRepository;
+
+	@Autowired
+	private LivroRepository livroRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
-		Main main = new Main();
+		Main main = new Main(autorRepository,livroRepository);
 		main.mainMenu();
 
 	}

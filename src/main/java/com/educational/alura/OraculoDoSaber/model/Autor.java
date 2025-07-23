@@ -13,11 +13,12 @@ public class Autor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     private String nome;
     private Integer anoNascimento;
     private Integer anoFalecimento;
 
-    @Transient
+    @OneToMany(mappedBy = "autor",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Livro> livrosDoAutor = new ArrayList<>();
 
     public Long getId() {
