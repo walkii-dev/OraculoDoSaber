@@ -62,10 +62,10 @@ public class Livro {
         this.numeroDownloads = numeroDownloads;
     }
 
-    public Livro(AuxiliarDTO auxiliar) {
+    public Livro(AuxiliarDTO auxiliar,Autor autor) {
         this.titulo = auxiliar.resultado().get(0).titulo();
-        this.autor = new Autor(auxiliar);
-        this.idioma = auxiliar.resultado().get(0).languages().get(0).toString();
+        this.autor = autor;
+        this.idioma = auxiliar.resultado().get(0).languages().get(0);
         this.numeroDownloads = auxiliar.resultado().get(0).numeroDownloads();
     }
 
@@ -74,11 +74,11 @@ public class Livro {
 
     @Override
     public String toString() {
-        return
-                "titulo='" + titulo + '\'' +
-                ", autor=" + autor +
-                ", idioma='" + idioma + '\'' +
-                ", numeroDownloads=" + numeroDownloads +
-                '}';
+        return "--------------------------------------------------------"+
+                "\nNome do Livro: "+ titulo+
+                "\nAutor: "+autor.getNome()+
+                "\nIdioma: "+idioma+
+                "\nNúmero de Downloads: "+numeroDownloads+
+                "\n--------------------------------------------------------";
     }
 }

@@ -73,9 +73,11 @@ public class Autor {
 
     @Override
     public String toString() {
-        return "Autor{" +
-                ", nome='" + nome + '\'' +
-                ", anoNascimento=" + anoNascimento +
-                ", anoFalecimento=" + anoFalecimento;
+        return "--------------------------------------------------------"+
+                "\nAutor: "+nome+
+                "\nAno de nascimento: "+anoNascimento+
+                "\nAno de falecimento: "+anoFalecimento+
+                "\nLivros do autor: "+livrosDoAutor.get(0).getTitulo()+
+                "\n--------------------------------------------------------";
     }
 }
