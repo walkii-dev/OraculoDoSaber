@@ -77,9 +77,9 @@ public class Main {
         System.out.println("Digite um dom casmurro para testar:");
         var busca = input.nextLine();
         var json = consumo.obterDadosAPI(busca);
-//        System.out.println(json);
+        System.out.println(json);
         AuxiliarDTO resposta = conversor.converterDados(json, AuxiliarDTO.class);
-//        System.out.println(resposta);
+        System.out.println(resposta);
         return resposta;
     }
     public void buscarLivroPeloTitulo(){
