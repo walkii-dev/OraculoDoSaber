@@ -2,6 +2,7 @@ package com.educational.alura.OraculoDoSaber;
 
 import com.educational.alura.OraculoDoSaber.model.Autor;
 import com.educational.alura.OraculoDoSaber.model.Livro;
+import com.educational.alura.OraculoDoSaber.model.dto.AutorDTO;
 import com.educational.alura.OraculoDoSaber.model.dto.AuxiliarDTO;
 import com.educational.alura.OraculoDoSaber.model.dto.LivroDTO;
 import com.educational.alura.OraculoDoSaber.repository.AutorRepository;
@@ -11,6 +12,7 @@ import com.educational.alura.OraculoDoSaber.service.ConversaoDados;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
@@ -93,15 +95,52 @@ public class Main {
     }
     public void buscarLivroPeloTitulo(){
 
+//        AuxiliarDTO auxiliar = getInfo();
+//
+//        Autor autor = new Autor(auxiliar);
+//        Livro livro = new Livro(auxiliar,autor);
+//
+//        System.out.println(autor);
+//        System.out.println(livro);
+//
+//        autorRepository.save(autor);
+//        livroRepository.save(livro);
+
+//        AuxiliarDTO auxiliar = getInfo();
+//        LivroDTO livroDTO = auxiliar.resultado().get(0);
+//        AutorDTO autorDTO = livroDTO.autor().get(0);
+//
+//        // Verifica se o autor já existe
+//        Autor autor = autorRepository.findByNome(autorDTO.nome())
+//                .orElseGet(() -> autorRepository.save(new Autor(auxiliar)));
+//
+//        // Cria o livro com o autor persistido
+//        Livro livro = new Livro(auxiliar);
+//        livro.setAutor(autor);
+//
+//        // Salva o livro
+//        livroRepository.save(livro);
+//
+//        System.out.println("Autor salvo: " + autor);
+//        System.out.println("Livro salvo: " + livro);
+
         AuxiliarDTO auxiliar = getInfo();
-        Autor autor = new Autor(auxiliar);
-        Livro livro = new Livro(auxiliar);
-        System.out.println(autor);
-        System.out.println(livro);
+        String titulo = auxiliar.resultado().get(0).titulo();
 
-        autorRepository.save(autor);
-        livroRepository.save(livro);
+        Optional<Livro> livroExistente = livroRepository.findByTitulo(titulo);
 
+        if (livroExistente.isEmpty()) {
+            AutorDTO autorDTO = auxiliar.resultado().get(0).autor().get(0);
+            Autor autor = autorRepository.findByNome(autorDTO.nome())
+                    .orElseGet(() -> autorRepository.save(new Autor(auxiliar)));
+
+            Livro livro = new Livro(auxiliar);
+            livro.setAutor(autor);
+            livroRepository.save(livro);
+            System.out.println("Livro salvo com sucesso!");
+        } else {
+            System.out.println("Livro já existe no banco: " + livroExistente.get());
+        }
 
 
     }

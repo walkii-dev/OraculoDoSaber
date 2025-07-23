@@ -58,6 +58,7 @@ public class Autor {
     }
 
     public void setLivrosDoAutor(List<Livro> livrosDoAutor) {
+        livrosDoAutor.forEach(l->l.setAutor(this));
         this.livrosDoAutor = livrosDoAutor;
     }
 

@@ -14,9 +14,10 @@ public class Livro {
     private String titulo;
 
     @ManyToOne
-    @JoinColumn(name ="autor_id")
+    @JoinColumn(name = "autor_id")
     private Autor autor;
 
+    @Column(nullable = false)
     private String idioma;
 
     private Integer numeroDownloads;
