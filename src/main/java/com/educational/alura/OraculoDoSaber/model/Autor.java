@@ -1,8 +1,10 @@
 package com.educational.alura.OraculoDoSaber.model;
 
 import com.educational.alura.OraculoDoSaber.model.dto.AutorDTO;
+import com.educational.alura.OraculoDoSaber.model.dto.AuxiliarDTO;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -11,12 +13,13 @@ public class Autor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     private String nome;
     private Integer anoNascimento;
     private Integer anoFalecimento;
 
-    @Transient
-    private List<Livro> livrosDoAutor;
+    @OneToMany(mappedBy = "autor",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Livro> livrosDoAutor = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -55,13 +58,14 @@ public class Autor {
     }
 
     public void setLivrosDoAutor(List<Livro> livrosDoAutor) {
+        livrosDoAutor.forEach(l->l.setAutor(this));
         this.livrosDoAutor = livrosDoAutor;
     }
 
-    public Autor(AutorDTO autor) {
-        this.nome = autor.nome();
-        this.anoNascimento = autor.anoNascimento();
-        this.anoFalecimento = autor.anoFalecimento();
+    public Autor(AuxiliarDTO auxiliar) {
+        this.nome = auxiliar.resultado().get(0).autor().get(0).nome();
+        this.anoNascimento = auxiliar.resultado().get(0).autor().get(0).anoNascimento();
+        this.anoFalecimento = auxiliar.resultado().get(0).autor().get(0).anoFalecimento();
     }
 
     public Autor() {
@@ -70,11 +74,8 @@ public class Autor {
     @Override
     public String toString() {
         return "Autor{" +
-                "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", anoNascimento=" + anoNascimento +
-                ", anoFalecimento=" + anoFalecimento +
-                ", livrosDoAutor=" + livrosDoAutor +
-                '}';
+                ", anoFalecimento=" + anoFalecimento;
     }
 }

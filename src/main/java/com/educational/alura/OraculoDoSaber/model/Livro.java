@@ -1,27 +1,26 @@
 package com.educational.alura.OraculoDoSaber.model;
 
-import com.educational.alura.OraculoDoSaber.model.dto.AutorDTO;
-import com.educational.alura.OraculoDoSaber.model.dto.LivroDTO;
-import com.educational.alura.OraculoDoSaber.repository.LivroRepository;
+import com.educational.alura.OraculoDoSaber.model.dto.AuxiliarDTO;
 import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 @Entity
-@Table(name = "livros")
+@Table(name="livros")
 public class Livro {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true)
     private String titulo;
+
     @ManyToOne
+    @JoinColumn(name = "autor_id")
     private Autor autor;
+
+    @Column(nullable = false)
     private String idioma;
+
     private Integer numeroDownloads;
-
-
 
     public Long getId() {
         return id;
@@ -63,11 +62,11 @@ public class Livro {
         this.numeroDownloads = numeroDownloads;
     }
 
-    public Livro(LivroDTO livro, Autor autor) {
-        this.titulo = livro.titulo();
-        this.autor = autor;
-        this.idioma = livro.languages().get(0).toString();
-        this.numeroDownloads = livro.numeroDownloads();
+    public Livro(AuxiliarDTO auxiliar) {
+        this.titulo = auxiliar.resultado().get(0).titulo();
+        this.autor = new Autor(auxiliar);
+        this.idioma = auxiliar.resultado().get(0).languages().get(0).toString();
+        this.numeroDownloads = auxiliar.resultado().get(0).numeroDownloads();
     }
 
     public Livro() {
@@ -75,9 +74,8 @@ public class Livro {
 
     @Override
     public String toString() {
-        return "Livro{" +
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
+        return
+                "titulo='" + titulo + '\'' +
                 ", autor=" + autor +
                 ", idioma='" + idioma + '\'' +
                 ", numeroDownloads=" + numeroDownloads +
